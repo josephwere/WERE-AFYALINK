@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: afyalink-backend
+    env: node
+    plan: free
+    region: frankfurt
+    buildCommand: npm install && npx prisma generate && npm run build
+    startCommand: bash ./start.sh
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: PORT
+        value: 4000
+    autoDeploy: true
