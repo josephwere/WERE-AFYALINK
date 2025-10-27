@@ -2,13 +2,15 @@
   "compilerOptions": {
     "target": "ES2020",
     "module": "commonjs",
-    "rootDir": "2_Backend",  // <-- change this to your actual folder containing src
+    "rootDir": ".",       // <-- root is the current folder (2-backend)
     "outDir": "dist",
     "strict": true,
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true
   },
-  "include": ["2_Backend/**/*"]
+  "include": ["**/*.ts"]   // include all TypeScript files in 2-backend
 }
+
 
 
