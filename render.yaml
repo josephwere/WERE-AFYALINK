@@ -1,6 +1,8 @@
-# AfyaLink Backend — Render Deployment Blueprint
+# ===============================================================
+# 🌍 AfyaLink — Smart Health System (Backend)
+# Deployable on Render — Auto-provisioned PostgreSQL + Secure Env
 # Maintained by GoldEdge Labs / NeuroEdge AI
-# Region: Frankfurt (EU)
+# ===============================================================
 
 services:
   - type: web
@@ -10,6 +12,7 @@ services:
     region: frankfurt
     autoDeploy: true
 
+    # Build and startup commands
     buildCommand: |
       cd 2-backend
       npm install
@@ -20,20 +23,32 @@ services:
       cd 2-backend
       bash ./start.sh
 
+    # Environment Variables
     envVars:
       - key: DATABASE_URL
         fromDatabase:
           name: afyalink-db
           property: connectionString
       - key: JWT_SECRET
-        sync: false
+        value: superstrongsecretkey123!
       - key: NODE_ENV
         value: production
       - key: PORT
         value: 4000
       - key: CORS_ORIGIN
         value: https://afyalink-frontend.vercel.app
+      - key: API_VERSION
+        value: v1
+      - key: ENABLE_LOGS
+        value: true
+      - key: COMPANY_NAME
+        value: GoldEdge Labs
+      - key: POWERED_BY
+        value: NeuroEdge AI
 
+# ===============================================================
+# Database Configuration (Auto-provisioned PostgreSQL)
+# ===============================================================
 databases:
   - name: afyalink-db
     plan: free
