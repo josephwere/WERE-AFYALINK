@@ -1,16 +1,42 @@
+# AfyaLink Backend — Render Deployment Blueprint
+# Maintained by GoldEdge Labs / NeuroEdge AI
+# Region: Frankfurt (EU)
+
 services:
   - type: web
     name: afyalink-backend
     env: node
     plan: free
     region: frankfurt
-    buildCommand: npm install && npx prisma generate && npm run build
-    startCommand: bash ./start.sh
+    autoDeploy: true
+
+    buildCommand: |
+      cd 2-backend
+      npm install
+      npx prisma generate
+      npm run build
+
+    startCommand: |
+      cd 2-backend
+      bash ./start.sh
+
     envVars:
       - key: DATABASE_URL
-        sync: false
+        fromDatabase:
+          name: afyalink-db
+          property: connectionString
       - key: JWT_SECRET
         sync: false
+      - key: NODE_ENV
+        value: production
       - key: PORT
         value: 4000
-    autoDeploy: true
+      - key: CORS_ORIGIN
+        value: https://afyalink-frontend.vercel.app
+
+databases:
+  - name: afyalink-db
+    plan: free
+    region: frankfurt
+    databaseName: afyalink
+    user: afyalink_admin
