@@ -110,7 +110,7 @@ AfyaLink	Smart health network system
 IDVerse	Universal digital identity framework
 AgriNova	AI + IoT agriculture ecosystem
 RentaLink	Smart property and rental management
-🌐 Website: www.goldedgelabs.africa
+🌐 Website: www.goldedgelabs.Global
 📧 Email: support@goldedgelabs.com
 🏢 HQ: Nairobi, Kenya | Global Presence 🌎
 
