@@ -12,15 +12,13 @@ services:
     region: frankfurt
     autoDeploy: true
 
-    # Build and startup commands
+    # ✅ Corrected build and startup commands (no 2-backend folder)
     buildCommand: |
-      cd 2-backend
       npm install
       npx prisma generate
       npm run build
 
     startCommand: |
-      cd 2-backend
       bash ./start.sh
 
     # Environment Variables
@@ -55,3 +53,4 @@ databases:
     region: frankfurt
     databaseName: afyalink
     user: afyalink_admin
+
