@@ -1,11 +1,14 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "module": "CommonJS",
+    "module": "commonjs",
+    "rootDir": "2_Backend",  // <-- change this to your actual folder containing src
     "outDir": "dist",
-    "rootDir": "src",
     "strict": true,
     "esModuleInterop": true,
-    "skipLibCheck": true
-  }
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": ["2_Backend/**/*"]
 }
+
+
