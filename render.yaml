@@ -1,18 +1,16 @@
-# Render service definition for AfyaLink backend
-
+# ✅ Render service definition for AfyaLink Backend
 services:
   - type: web
     name: afyalink-backend
     env: node
     plan: free
     region: frankfurt
+    rootDir: 2-backend-render
     autoDeploy: true
-
-    rootDir: ./2-backend-render
 
     buildCommand: |
       npm install --include=dev
-      npm run prebuild
+      npx prisma generate
       npm run build
 
     startCommand: |
