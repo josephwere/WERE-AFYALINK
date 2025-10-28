@@ -8,17 +8,13 @@ services:
     region: frankfurt
     autoDeploy: true
 
-    # 👇 Backend folder name in your repo
     rootDir: ./2-backend-render
 
-    # 👇 Build sequence for TypeScript + Prisma
-   buildCommand: |
-  npm install --include=dev
-  npm run prebuild
-  npm run build
+    buildCommand: |
+      npm install --include=dev
+      npm run prebuild
+      npm run build
 
-
-    # 👇 Start script
     startCommand: |
       bash ./start.sh
 
