@@ -7,13 +7,20 @@ services:
     plan: free
     region: frankfurt
     autoDeploy: true
+
+    # 👇 This must match your actual backend folder name
     rootDir: ./2-backend-render
+
+    # 👇 Clean install, generate Prisma client, and compile TypeScript
     buildCommand: |
-      npm install
-      npx prisma generate
+      npm ci
+      npm run prebuild
       npm run build
+
+    # 👇 Start script for production
     startCommand: |
       bash ./start.sh
+
     envVars:
       - key: DATABASE_URL
         fromDatabase:
