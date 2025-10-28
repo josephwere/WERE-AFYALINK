@@ -1,4 +1,4 @@
-# ✅ Render service definition for AfyaLink Backend
+# ✅ Render service definition for AfyaLink Backend (secure version)
 services:
   - type: web
     name: afyalink-backend
@@ -17,19 +17,27 @@ services:
       bash ./start.sh
 
     envVars:
+      # The database connection will be linked securely via Render dashboard
       - key: DATABASE_URL
         fromDatabase:
           name: afyalink-db
           property: connectionString
+
+      # Secret used for JWT signing — set a strong random value in dashboard
       - key: JWT_SECRET
         value: "change_this_in_dashboard"
+
       - key: NODE_ENV
         value: production
+
       - key: PORT
         value: 4000
+
+      # Allowed frontend domain for CORS
       - key: CORS_ORIGIN
         value: https://afyalink-frontend.vercel.app
 
+# Optional database setup (Render can auto-create this)
 databases:
   - name: afyalink-db
     plan: free
