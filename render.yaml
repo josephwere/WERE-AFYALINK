@@ -1,4 +1,5 @@
 # Render service definition for AfyaLink backend
+
 services:
   - type: web
     name: afyalink-backend
@@ -6,7 +7,7 @@ services:
     plan: free
     region: frankfurt
     autoDeploy: true
-    rootDir: .
+    rootDir: ./backend
     buildCommand: |
       npm install
       npx prisma generate
@@ -26,6 +27,7 @@ services:
         value: 4000
       - key: CORS_ORIGIN
         value: https://afyalink-frontend.vercel.app
+
 databases:
   - name: afyalink-db
     plan: free
