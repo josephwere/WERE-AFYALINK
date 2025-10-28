@@ -7,7 +7,7 @@ services:
     plan: free
     region: frankfurt
     autoDeploy: true
-    rootDir: ./backend
+    rootDir: ./2-backend-render
     buildCommand: |
       npm install
       npx prisma generate
