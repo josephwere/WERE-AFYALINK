@@ -1,36 +1,42 @@
-#!/usr/bin/env bash
-set -e
+// ✅ Load environment variables first
+import dotenv from "dotenv";
+dotenv.config();
 
-echo "🚀 Starting AfyaLink Backend..."
+import app from "./app";
+import { PrismaClient } from "@prisma/client";
 
-# Load environment variables
-export NODE_ENV=production
+const prisma = new PrismaClient();
 
-# Show current Node and npm versions
-echo "🧩 Node version: $(node -v)"
-echo "📦 NPM version: $(npm -v)"
+const PORT = process.env.PORT ? Number(process.env.PORT) : 4000;
 
-# Check Prisma version
-npx prisma --version || echo "⚠️ Prisma not found, attempting to install..."
-npm install @prisma/client prisma --save
+async function start() {
+  try {
+    console.log("🔄 Connecting to database...");
+    await prisma.$connect();
+    console.log("✅ Prisma connected successfully");
 
-# Show database host (safe for logs)
-if [[ -n "$DATABASE_URL" ]]; then
-  echo "🌐 Using database host: $(node -e "console.log(new URL(process.env.DATABASE_URL).host)")"
-else
-  echo "⚠️ DATABASE_URL is not set!"
-fi
+    // 🧩 Start the Express server
+    const server = app.listen(PORT, () => {
+      console.log(`🚀 AfyaLink backend is running on port ${PORT}`);
+    });
 
-echo "🔄 Running Prisma generate..."
-npx prisma generate
+    // 🧹 Graceful shutdown
+    const shutdown = async (signal: string) => {
+      console.log(`\n⚠️ Received ${signal}. Closing gracefully...`);
+      await prisma.$disconnect();
+      server.close(() => {
+        console.log("🧹 Server closed. Goodbye!");
+        process.exit(0);
+      });
+    };
 
-echo "🧱 Running Prisma migrations..."
-npx prisma migrate deploy || echo "⚠️ Migration deploy failed, continuing anyway..."
+    process.on("SIGTERM", () => shutdown("SIGTERM"));
+    process.on("SIGINT", () => shutdown("SIGINT"));
 
-# Small delay to ensure DB is fully ready (Render DBs can take a few seconds)
-echo "⏳ Waiting for database readiness..."
-sleep 5
+  } catch (error) {
+    console.error("❌ Error starting server:", error);
+    process.exit(1);
+  }
+}
 
-# Finally start your compiled server
-echo "🚀 Starting Node server..."
-node dist/server.js
+start();
