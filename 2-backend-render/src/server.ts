@@ -16,8 +16,11 @@ async function connectWithRetry(retries = 5, delay = 5000): Promise<void> {
       await prisma.$connect();
       console.log("✅ Prisma connected successfully");
       return;
-    } catch (error) {
-      console.error(`❌ Database connection failed (attempt ${attempt}):`, error.message);
+    } catch (error: unknown) {
+      // ✅ Safe error handling (TypeScript strict mode)
+      const message = error instanceof Error ? error.message : String(error);
+      console.error(`❌ Database connection failed (attempt ${attempt}):`, message);
+
       if (attempt < retries) {
         console.log(`⏳ Retrying in ${delay / 1000} seconds...`);
         await new Promise((resolve) => setTimeout(resolve, delay));
@@ -48,8 +51,9 @@ async function start() {
 
     process.on("SIGTERM", () => shutdown("SIGTERM"));
     process.on("SIGINT", () => shutdown("SIGINT"));
-  } catch (error) {
-    console.error("❌ Fatal error starting server:", error);
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.error("❌ Fatal error starting server:", message);
     process.exit(1);
   }
 }
