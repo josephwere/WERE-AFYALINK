@@ -2,7 +2,7 @@
 import dotenv from "dotenv";
 dotenv.config();
 
-import app from "./app";
+import app from "./app.js"; // ✅ Added `.js` extension for ESM compatibility
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
